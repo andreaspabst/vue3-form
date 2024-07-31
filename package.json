@@ -6,7 +6,8 @@
   "author": "Andreas \"IT Pabst\" Pabst",
   "version": "1.0.4",
   "license": "MIT",
-  "main": "src/index.ts",
+  "main": "dist/vue3-form-helper.umd.cjs",
+  "module": "dist/vue3-form-helper.js",
   "files": [
     "dist/**/*",
     "src/**/*"
