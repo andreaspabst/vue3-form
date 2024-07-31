@@ -149,7 +149,7 @@ export function useForm(initialData: FormData, validationSchema: ValidationSchem
      * @param config
      * @param options
      */
-    async function del(url: string, config: RequestConfig = {}, options: AxiosRequestConfig = {},): Promise<AxiosResponse> {
+    async function destroy(url: string, config: RequestConfig = {}, options: AxiosRequestConfig = {},): Promise<AxiosResponse> {
         return await submit('DELETE', url, config, options);
     }
 
@@ -243,6 +243,11 @@ export function useForm(initialData: FormData, validationSchema: ValidationSchem
     return reactive({
         ...form,
         submit,
+        post,
+        get,
+        put,
+        destroy,
+        patch,
         is_dirty,
         clearErrors,
         validate,
