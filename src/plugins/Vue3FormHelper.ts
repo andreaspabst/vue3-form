@@ -33,6 +33,10 @@ export interface FormState {
  */
 type SubmitMethod = 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
 
+type RequestConfig = {
+    forceFormData?: boolean;
+};
+
 // Shared axios instance and fetch instance for the plugin to use
 let sharedAxiosInstance: AxiosInstance | null = null;
 let sharedFetchInstance: typeof fetch | null = null;
@@ -110,12 +114,64 @@ export function useForm(initialData: FormData, validationSchema: ValidationSchem
     }
 
     /**
+     * Submit the form object with a POST method, url and options
+     * @param url
+     * @param config
+     * @param options
+     */
+    async function post(url: string, config: RequestConfig = {}, options: AxiosRequestConfig = {},): Promise<AxiosResponse> {
+        return await submit('POST', url, config, options);
+    }
+
+    /**
+     * Submit the form object with a GET method, url and options
+     * @param url
+     * @param config
+     * @param options
+     */
+    async function get(url: string, config: RequestConfig = {}, options: AxiosRequestConfig = {},): Promise<AxiosResponse> {
+        return await submit('GET', url, config, options);
+    }
+
+    /**
+     * Submit the form object with a PUT method, url and options
+     * @param url
+     * @param config
+     * @param options
+     */
+    async function put(url: string, config: RequestConfig = {}, options: AxiosRequestConfig = {},): Promise<AxiosResponse> {
+        return await submit('PUT', url, config, options);
+    }
+
+    /**
+     * Submit the form object with a DELETE method, url and options
+     * @param url
+     * @param config
+     * @param options
+     */
+    async function del(url: string, config: RequestConfig = {}, options: AxiosRequestConfig = {},): Promise<AxiosResponse> {
+        return await submit('DELETE', url, config, options);
+    }
+
+    /**
+     * Submit the form object with a PATCH method, url and options
+     * @param url
+     * @param config
+     * @param options
+     */
+    async function patch(url: string, config: RequestConfig = {}, options: AxiosRequestConfig = {},): Promise<AxiosResponse> {
+        return await submit('PATCH', url, config, options);
+    }
+
+
+    /**
      * Submit the form object with a method, url and options
      * @param method
      * @param url
      * @param options
+     * @param config
      */
-    async function submit(method: SubmitMethod, url: string, options: AxiosRequestConfig = {}): Promise<AxiosResponse> {
+    async function submit(method: SubmitMethod, url: string, config: RequestConfig = {}, options: AxiosRequestConfig = {},): Promise<AxiosResponse> {
         if (!validate()) {
             throw new Error('Validation failed');
         }
@@ -126,10 +182,21 @@ export function useForm(initialData: FormData, validationSchema: ValidationSchem
         let axiosOrFetchInstance = axiosInstance || sharedAxiosInstance || axios.create();
 
         try {
+            let payload = { ...form.data };
+
+            if (config.forceFormData === true) {
+                console.log("HI");
+                const formData = new FormData();
+                for (const key in payload) {
+                    formData.append(key, payload[key]);
+                }
+                payload = formData;
+            }
+
             return await axiosOrFetchInstance({
                 method,
                 url,
-                data: { ...form },
+                data: payload,
                 ...options,
             });
 

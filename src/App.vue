@@ -11,6 +11,11 @@
       </div>
       <span v-if="form.errors.name">{{ form.errors.name }}</span>
       <div class="d-flex justify-content-between">
+        <label for="image" class="w-50">Image:</label>
+        <input @change="form.data.image = $event.target.files[0]" type="file" id="image" class="form-control" />
+      </div>
+      <span v-if="form.errors.image">{{ form.errors.image }}</span>
+      <div class="d-flex justify-content-between">
         <label for="email" class="w-50">Email:</label>
         <input v-model="form.data.email" type="email" id="email" class="form-control" />
       </div>
@@ -53,12 +58,15 @@ const form = useForm(
       age: 32,
       is_active: true,
       deleted_at: null,
+      image: null,
     }
 );
 
 async function submitForm() {
   try {
-    await form.submit('POST', '/submit-form');
+    await form.submit('POST', '/submit-form', {
+      forceFormData: form.data.image !== null,
+    });
     alert('Form submitted successfully');
   } catch (error) {
     console.error(error);
