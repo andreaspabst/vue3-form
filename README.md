@@ -157,6 +157,50 @@ async function submitForm() {
 The error bag is a reactive object and you can use it to display error messages in your template.
 Typically its filled by the server response, but you can also add errors manually.
 
+### Check and Clear Errors
+
+You can check if the form has errors by using the `hasErrors` method. If you want to clear the errors, you can use the `clearErrors` method.
+
+```vue
+<template>
+    <form @submit.prevent="submitForm">
+        <input v-model="form.data.name" type="text" name="name" />
+        <button type="submit">Submit</button>
+        <button type="reset" @click.prevent="form.reset()">Reset</button>
+    </form>
+    <span v-if="form.hasErrors('name')">{{ form.errors.name }}</span>
+    <button @click="form.clearErrors('name')">Clear Errors</button>
+</template>
+```
+
+Or you can generally check if the form has any errors by using the `hasErrors` method without any arguments.
+
+```vue
+<template>
+    <form @submit.prevent="submitForm">
+        <input v-model="form.data.name" type="text" name="name" />
+        <button type="submit">Submit</button>
+        <button type="reset" @click.prevent="form.reset()">Reset</button>
+    </form>
+    <span v-if="form.hasErrors()">There are errors in the form</span>
+</template>
+```
+
+In the end you can easily clear all errors by using the `clearErrors` method without any arguments.
+Any time when the form will be submitted, the errors will be cleared automatically.
+
+```vue
+<template>
+    <form @submit.prevent="submitForm">
+        <input v-model="form.data.name" type="text" name="name" />
+        <button type="submit">Submit</button>
+        <button type="reset" @click.prevent="form.reset()">Reset</button>
+    </form>
+    <span v-if="form.hasErrors()">There are errors in the form</span>
+    <button @click="form.clearErrors()">Clear All Errors</button>
+</template>
+```
+
 ### Validation
 
 The form helper provides a simple validation mechanism. You can define validation rules for each field in the form object.

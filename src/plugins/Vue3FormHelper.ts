@@ -77,6 +77,13 @@ export function useForm(initialData: FormData, validationSchema: ValidationSchem
         form.errors = {};
     }
 
+    function hasErrors( paramName = null ): boolean {
+        if (paramName) {
+            return form.errors[paramName] !== undefined;
+        }
+        return Object.keys(form.errors).length > 0;
+    }
+
     /**
      * Start processing state in the form object
      */
@@ -250,6 +257,7 @@ export function useForm(initialData: FormData, validationSchema: ValidationSchem
         patch,
         is_dirty,
         clearErrors,
+        hasErrors,
         validate,
         reset,
     });
