@@ -4,7 +4,7 @@
   "description": "A Vue 3 form helper to simplify form handling of a Single Page Application",
   "private": false,
   "author": "Andreas \"IT Pabst\" Pabst",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "main": "dist/vue3-form-helper.umd.cjs",
   "module": "dist/vue3-form-helper.js",
