@@ -210,7 +210,7 @@ export function useForm(initialData: FormData, validationSchema: ValidationSchem
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 setErrors(error.response.data.errors || {});
-                throw new Error(error.response.data.message || 'Form submission failed');
+                throw error
             }
             throw error;
         } finally {

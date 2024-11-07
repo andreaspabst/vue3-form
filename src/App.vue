@@ -40,6 +40,7 @@
       </div>
       <div class="d-flex gap-1">
         <button type="submit" :disabled="form.processing === true">Submit</button>
+        <button type="button" @click.prevent="submitFormWithError">Submit with Error</button>
         <button type="button" @click="resetForm" :disabled="form.processing === true">Reset</button>
       </div>
     </form>
@@ -69,7 +70,16 @@ async function submitForm() {
     });
     alert('Form submitted successfully');
   } catch (error) {
-    console.error(error);
+    console.error("There was an error", error);
+  }
+}
+
+async function submitFormWithError() {
+  try {
+    let response = await form.post('https://httpstat.us/500');
+    alert('Form submitted successfully');
+  } catch (error) {
+    console.error("There was an error", error);
   }
 }
 
